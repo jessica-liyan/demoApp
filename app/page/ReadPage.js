@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Text
+  Text,
+  ActivityIndicator
 } from 'react-native';
 import BaseComponent from '../base/BaseComponent'
 import {getNavigator} from '../route';
@@ -28,6 +29,7 @@ export default class ReadPage extends BaseComponent {
     return (
       <View style={styles.container}>
         <Text>read books</Text>
+        <ActivityIndicator color={'red'}/>
       </View>
     )
   }
