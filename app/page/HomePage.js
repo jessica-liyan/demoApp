@@ -17,6 +17,7 @@ import getFetch from '../api/apiHelper'
   下拉更新，上拉加载
   点击行，进入详情页，当前数据存在缓存中？将id存储在缓存中 
   详情页通过路径获得数据  /book/detail/${id}
+  1.将下拉刷新的功能抽出来
 */
 
 export default class HomePage extends Component {

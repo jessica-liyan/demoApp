@@ -1,6 +1,7 @@
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Home from './page/Home';
 import SearchItem from './component/SearchItem';
+import ListDetail from './component/ListDetail';
 import MoviePage from './page/MoviePage';
 
 let navigator;
@@ -14,6 +15,9 @@ routeMap.set('SearchItem', {
 });
 routeMap.set('MoviePage', {
   component: MoviePage
+});
+routeMap.set('ListDetail', {
+  component: ListDetail
 });
 
 export function registerNavigator(tempNavigator) {
