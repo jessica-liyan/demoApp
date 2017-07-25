@@ -121,7 +121,7 @@ export default class NavigationBar extends Component {
       return null
     }
     return (
-      <View style={styles.navigationBar}>
+      <View style={[styles.navigationBar,this.navigationBarProps.navigationBar]}>
         {this.renderLeftButton()}
         {this.renderRightButton()}
         <View style={styles.titleContainer}>

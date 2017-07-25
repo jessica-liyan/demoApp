@@ -18,7 +18,7 @@ export default class BaseComponent extends Component {
 
   render () {
     return (
-      <View style={{flex:1}}>
+      <View style={[this.props.style]}>
         {this.renderNavigationBar()}
         {this.renderBody()}
       </View>

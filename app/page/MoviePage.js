@@ -20,14 +20,20 @@ export default class ReadPage extends BaseComponent {
       hideLeftButton: true,
       leftButtonImage: require('../image/back.png'),
       rightButtonImage: require('../image/search.png'),
-      title: '电影'
+      title: '音乐'
     };
+  }
+
+  show(){
+    if (true){
+      return <Text style={{fontSize:16,color:'#333'}}>test</Text>
+    }
   }
 
   renderBody () {
     return (
       <View style={styles.container}>
-        <Text>read books</Text>
+        {this.show()}
       </View>
     )
   }

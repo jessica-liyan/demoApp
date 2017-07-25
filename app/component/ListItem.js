@@ -4,7 +4,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity
+  TouchableHighlight
 } from 'react-native';
 import {getNavigator} from '../route'
 
@@ -13,11 +13,11 @@ export default class ListItem extends Component {
     super(props)
   }
 
-  onPress(data){
+  onPress(id){
     getNavigator().push({
       name: 'ListDetail',
       params: {
-        id: data.id
+        id: id
       }
     })
   }
@@ -25,23 +25,23 @@ export default class ListItem extends Component {
   render() {
     const {data} = this.props;
     return (
-      <TouchableOpacity style={styles.touchableOpacity} onPress={() => this.onPress(data)}>
+      <TouchableHighlight style={styles.container} underlayColor='#f5f5f5' onPress={() => this.onPress(data.id)}>
         <View style={styles.item} key={data.id}>
           <View style={styles.itemImg}>
             <Image source={{uri: data.image}} style={{width: 120, height: 80}}/>
           </View>
           <View style={styles.itemTxt}>
             <Text style={styles.itemTit}>{data.title}</Text>
-            <Text style={styles.itemSubTit}>{data.title}/{data.author}/{data.price}</Text>
+            <Text style={styles.itemSubTit}>{data.author}/{data.price}</Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  touchableOpacity: {
+  container: {
     borderBottomWidth: 1,
     borderColor: '#ededed',
     borderStyle: 'solid',
@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start'
+  },
+  itemImg:{
+    flex: 0.4
+  },
+  itemTxt:{
+    flex: 0.6
   },
   itemTit: {
     fontSize: 14,

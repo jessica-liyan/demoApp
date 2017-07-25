@@ -10,22 +10,20 @@ import {
 import ListItem from '../component/ListItem'
 import EmptyPage from './EmptyPage'
 import store from 'react-native-simple-store'
-import getFetch from '../api/apiHelper'
-
-/*从缓存获取数据   从网络获取数据
-  行点击后的透明度的变化
-  下拉更新，上拉加载
-  点击行，进入详情页，当前数据存在缓存中？将id存储在缓存中 
-  详情页通过路径获得数据  /book/detail/${id}
-  1.将下拉刷新的功能抽出来
-*/
+import {postFetch} from '../api/apiHelper'
 
 export default class HomePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
       index: 0,
-      bookList: [],
+      bookList: [{
+        id:1,
+        title: '这是一个测试',
+        image: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3001304778,4021565056&fm=96',
+        author: 'liyan',
+        price: '$120'
+      }],
       refreshing: true,
       hasMore: false
     }
@@ -36,10 +34,10 @@ export default class HomePage extends Component {
 
   // 首页数据加载
   fetchData () {
-    getFetch({
+    postFetch({
       path: 'book/search',
       params: {
-        q: 'java',
+        q: '异形',
         count: 10
       },
       callback: (res) => {
@@ -52,15 +50,15 @@ export default class HomePage extends Component {
     })
   }
 
-  // 触底加载下一页数据，如何显示正在加载中
+  // 触底加载下一页数据
   onEndReached(){
     console.log('到底了',`当前是第${this.state.index}页`)
-    const count = 5;
+    const count = 15;
     const start = (this.state.index + 1)*count;
-    getFetch({
+    postFetch({
       path: 'book/search',
       params: {
-        q: 'java',
+        q: '异形',
         count: count,
         start: start
       },
@@ -100,7 +98,6 @@ export default class HomePage extends Component {
   render() {
     return (
       <FlatList
-        style={styles.section}
         refreshing={this.state.refreshing}
         onRefresh={this.onRefresh}
         onEndReached={this.onEndReached}
@@ -117,16 +114,6 @@ export default class HomePage extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 50,
-    backgroundColor: '#DD4C35',
-    flexDirection: 'row',
-  },
-  touchableContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   txt: {
     fontSize: 16,
     color: '#fff'
