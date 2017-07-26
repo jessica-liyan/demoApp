@@ -3,6 +3,8 @@ import Home from './page/Home';
 import SearchItem from './component/SearchItem';
 import ListDetail from './component/ListDetail';
 import MoviePage from './page/MoviePage';
+import MovieDetail from './component/MovieDetail';
+import MovieListTab from './component/MovieListTab';
 
 let navigator;
 const routeMap = new Map();
@@ -18,6 +20,12 @@ routeMap.set('MoviePage', {
 });
 routeMap.set('ListDetail', {
   component: ListDetail
+});
+routeMap.set('MovieDetail', {
+  component: MovieDetail
+});
+routeMap.set('MovieListTab', {
+  component: MovieListTab
 });
 
 export function registerNavigator(tempNavigator) {

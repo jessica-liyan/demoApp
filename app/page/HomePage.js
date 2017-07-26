@@ -8,7 +8,6 @@ import {
   FlatList
 } from 'react-native';
 import ListItem from '../component/ListItem'
-import EmptyPage from './EmptyPage'
 import store from 'react-native-simple-store'
 import {postFetch} from '../api/apiHelper'
 
@@ -37,7 +36,7 @@ export default class HomePage extends Component {
     postFetch({
       path: 'book/search',
       params: {
-        q: '异形',
+        q: '小黄人',
         count: 10
       },
       callback: (res) => {
@@ -58,7 +57,7 @@ export default class HomePage extends Component {
     postFetch({
       path: 'book/search',
       params: {
-        q: '异形',
+        q: '小黄人',
         count: count,
         start: start
       },
@@ -91,7 +90,7 @@ export default class HomePage extends Component {
         </View>
       )
     } else {
-      return <Text style={styles.loadingTxt}>没有更多数据了</Text>
+      return <Text style={styles.noMoreTxt}>没有更多数据了</Text>
     }
   }
 
@@ -128,5 +127,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     paddingLeft:10
+  },
+  noMoreTxt:{
+    fontSize: 14,
+    color: '#666',
+    padding:10,
+    textAlign:'center'
   }
 });

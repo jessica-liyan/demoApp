@@ -27,7 +27,7 @@ export default class ReadPage extends BaseComponent {
 
   renderBody () {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>read books</Text>
         <ActivityIndicator color={'red'}/>
       </View>
@@ -45,9 +45,4 @@ export default class ReadPage extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 });
