@@ -7,64 +7,12 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
-import BaseComponent from '../base/BaseComponent'
 import {getNavigator} from '../route';
-import {getFetch, postFetch} from '../api/apiHelper'
 import LoadingManage from './LoadingManage'
 
-export default class MovieListDetail extends BaseComponent {
+export default class MovieListDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      type: 'movie',
-      city: '武汉',
-      movieList: [],
-      loadingStatus: 'loading'
-    }
-    this.FetchMovieList = this.FetchMovieList.bind(this)
-  }
-
-  componentDidMount () {
-    this.FetchMovieList(this.props.tabLabel)
-  }
-
-  FetchMovieList (tabLabel) {
-    switch (tabLabel) {
-      case '院线热映':
-        return postFetch({
-          path: 'movie/in_theaters',
-          params: {
-            city: this.state.city
-          },
-          callback: res => {
-            console.log(res.subjects)
-            this.setState({
-              movieList: res.subjects,
-              loadingStatus: 'success'
-            })
-          }
-        })
-      case '即将上映':
-        return postFetch({
-          path: 'movie/coming_soon',
-          callback: res => {
-            console.log(res.subjects)
-            this.setState({
-              movieList: res.subjects,
-              loadingStatus: 'success'
-            })
-          }
-        })
-    }
-  }
-
-  getNavigationBarProps() {
-    return {
-      hideNav:true,
-      leftButtonImage: require('../image/back.png'),
-      rightButtonImage: require('../image/share.png'),
-      title: '电影'
-    };
   }
 
   getName (arr) {
@@ -72,15 +20,15 @@ export default class MovieListDetail extends BaseComponent {
     for(let item of arr){
       str += item.name + '/'
     }
-    return str
+    return str.substring(0, str.length - 1)
   }
 
-  renderBody () {
-    const {movieList, loadingStatus} =  this.state
+  render () {
+    const {data, loadingStatus} =  this.props
     if(loadingStatus === 'success'){
       return (
         <FlatList
-          data={movieList}
+          data={data}
           extraData={this.state}
           renderItem={({item, index}) => (
             <TouchableOpacity key={index} style={styles.row} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
@@ -98,15 +46,6 @@ export default class MovieListDetail extends BaseComponent {
     } else {
       return <LoadingManage status={loadingStatus}/>
     }
-  }
-
-  onRightPressed() {
-    getNavigator().push({
-      name: 'SearchItem',
-      params: {
-        type: this.state.type
-      }
-    });
   }
 }
 

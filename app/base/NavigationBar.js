@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform
 } from 'react-native';
+import {getNavigator} from '../route';
 
 const windowWidth = Dimensions.get('window').width;
 const defaultNavigationHeight = 50;
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
 })
 /*
   默认参数 hideNav hideLeftButton  hideRightButton (navigationBarProps对象中)
-  必填参数  leftButtonImage  rightButtonImage  rightButtonText  title (navigationBarProps对象中)
+  必填参数  leftButtonImage  rightButtonImage  rightButtonText  title   navigationBar样式(navigationBarProps对象中)
   方法参数  onLeftPressed  onRightPressed
 */
 export default class NavigationBar extends Component {

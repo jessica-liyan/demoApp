@@ -8,11 +8,17 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
-import BaseComponent from '../base/BaseComponent'
+import NavigationBar from '../base/NavigationBar'
 import {getNavigator} from '../route';
 import {postFetch} from '../api/apiHelper'
 
-export default class ReadPage extends BaseComponent {
+const navigationBarProps = {
+  title:'电影',
+  leftButtonImage:require('../image/back.png'),
+  rightButtonImage:require('../image/search.png')
+}
+
+export default class ReadPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -25,13 +31,8 @@ export default class ReadPage extends BaseComponent {
     this.FetchNewMovie()
   }
 
-  getNavigationBarProps() {
-    return {
-      hideLeftButton: true,
-      leftButtonImage: require('../image/back.png'),
-      rightButtonImage: require('../image/search.png'),
-      title: '电影'
-    };
+  componentDidMount(){
+    console.log(height)
   }
   
   FetchNewMovie () {
@@ -61,71 +62,89 @@ export default class ReadPage extends BaseComponent {
     })
   }
   
-  renderBody () {
+  render () {
     let {newMovie, comingMovie} = this.state;
     return (
-      <View style={styles.main}>
-        <View style={styles.titleBar}>
-          <Text style={styles.title}>院线热映</Text>
-          <TouchableOpacity onPress={() => getNavigator().push({name: 'MovieListTab',params: {type: 'new'}})} style={styles.more}>
-            <Text style={styles.moreTxt}>更多></Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView horizontal contentContainerStyle={styles.container}>
-          {
-            newMovie.map((item, index) => {
-              return (
-                <TouchableOpacity key={index} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
-                  <Image source={{uri: item.images.large}} style={{width:120,height:160}} resizeMode="contain"/>
-                  <Text style={styles.txt}>{item.title}</Text>
-                </TouchableOpacity>
-              )
-            })
-          }
-        </ScrollView>
-        <View style={styles.titleBar}>
-          <Text style={styles.title}>即将上映</Text>
-          <TouchableOpacity onPress={() => getNavigator().push({name: 'MovieListTab',params: {type: 'coming'}})} style={styles.more}>
-            <Text style={styles.moreTxt}>更多></Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView horizontal contentContainerStyle={styles.container}>
-          {
-            comingMovie.map((item, index) => {
-              return (
-                <TouchableOpacity key={index} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
-                  <Image source={{uri: item.images.large}} style={{width:120,height:160}} resizeMode="contain"/>
-                  <Text style={styles.txt}>{item.title}</Text>
-                </TouchableOpacity>
-              )
-            })
-          }
+      <View style={styles.app}>
+        <NavigationBar 
+          navigationBarProps={navigationBarProps} 
+          onLeftPressed={() => {getNavigator().pop()}}
+          onRightPressed={() => {getNavigator().push({name: 'SearchItem',params: {type: this.state.type}})}}
+        />
+        <ScrollView style={styles.main}>
+          <View style={styles.titleBar}>
+            <Text style={styles.title}>院线热映</Text>
+            <TouchableOpacity onPress={() => getNavigator().push({name: 'MovieListTab',params: {type: 'new'}})} style={styles.more}>
+              <Text style={styles.moreTxt}>更多></Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView horizontal contentContainerStyle={styles.scrollContainer}>
+            {
+              newMovie.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
+                    <Image source={{uri: item.images.large}} style={{width:120,height:160}} resizeMode="contain"/>
+                    <Text style={styles.nameTxt} numberOfLines={1}>{item.title}</Text>
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </ScrollView>
+          <View style={styles.titleBar}>
+            <Text style={styles.title}>即将上映</Text>
+            <TouchableOpacity onPress={() => getNavigator().push({name: 'MovieListTab',params: {type: 'coming'}})} style={styles.more}>
+              <Text style={styles.moreTxt}>更多></Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView horizontal contentContainerStyle={styles.scrollContainer}>
+            {
+              comingMovie.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
+                    <Image source={{uri: item.images.large}} style={{width:120,height:160}} resizeMode="contain"/>
+                    <Text style={styles.nameTxt} numberOfLines={1}>{item.title}</Text>
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </ScrollView>
+          <View style={styles.titleBar}>
+            <Text style={styles.title}>精选榜单</Text>
+          </View>
+          <ScrollView horizontal contentContainerStyle={styles.scrollContainer}>
+            {
+              comingMovie.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} onPress={() => getNavigator().push({name: 'MovieDetail',params: {id: item.id}})}>
+                    <Image source={{uri: item.images.large}} style={{width:120,height:160}} resizeMode="contain"/>
+                    <Text style={styles.nameTxt} numberOfLines={1}>{item.title}</Text>
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </ScrollView>
         </ScrollView>
       </View>
-      
     )
-  }
-
-  onRightPressed() {
-    getNavigator().push({
-      name: 'SearchItem',
-      params: {
-        type: this.state.type
-      }
-    });
   }
 }
 
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
-  main:{
-    backgroundColor: '#fff'
+  app:{
+    height: height - 80,
+    backgroundColor: '#f5f5f5',
   },
-  container: {
+  scrollContainer: {
+    backgroundColor: '#fff',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 10
   },
   titleBar:{
+    marginTop: 10,
+    backgroundColor: '#fff',
     position: 'relative'
   },
   title:{
@@ -142,10 +161,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#5CACEE',
   },
-  txt:{
+  nameTxt:{
     fontSize: 14,
     color: '#333',
-    paddingVertical: 5,
-    paddingLeft: 5
+    padding: 5,
+    width: 110
   }
 });

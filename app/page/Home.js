@@ -33,6 +33,7 @@ export default class Home extends Component {
         }}
         tabBarPosition='bottom'
         initialPage={0}
+        style={styles.container}
       >
         <HomePage />
         <ReadPage />
@@ -44,4 +45,9 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    justifyContent:'flex-start',
+    backgroundColor:'#f5f5f5'
+  }
 });
